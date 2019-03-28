@@ -21,21 +21,30 @@ namespace Fisher.Bookstore.Api.Controllers
                 {
                     Id = 1,
                     Title = "Design Patterns",
-                    Author = "Erich Gamma",
+                    Author = new Author(){
+                        Id = 1,
+                        Name = "Erich Gamma"
+                    },
                     Isbn = "978-0201633610"
                 });
                 this.db.Books.Add(new Book()
                 {
                     Id = 2,
                     Title = "Continuous Delivery",
-                    Author = "Jez Humble",
+                    Author = new Author(){
+                        Id = 2,
+                        Name = "Jez Humble",
+                    },
                     Isbn = "978-0321601919"
                 });
                 this.db.Books.Add(new Book()
                 {
                     Id = 3,
                     Title = "The DevOps Handbook",
-                    Author = "Gene Kim",
+                    Author = new Author(){
+                        Id = 3,
+                        Name = "Gene Kim",
+                    },
                     Isbn = "978-1942788003"
                 });
             }
