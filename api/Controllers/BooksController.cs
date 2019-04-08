@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fisher.Bookstore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fisher.Bookstore.Api.Controllers
@@ -65,6 +66,7 @@ namespace Fisher.Bookstore.Api.Controllers
             }
             return Ok(book);
         }
+        [Authorize]
         [HttpPost]
         public IActionResult Post([FromBody]Book book)
         {
@@ -77,6 +79,7 @@ namespace Fisher.Bookstore.Api.Controllers
 
             return CreatedAtRoute("GetBook", new Book{ Id = book.Id}, book);
         }
+        [Authorize]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Book book)
         {
@@ -96,6 +99,7 @@ namespace Fisher.Bookstore.Api.Controllers
 
             return NoContent();
         }
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

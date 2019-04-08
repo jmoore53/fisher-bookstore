@@ -36,12 +36,38 @@ namespace Fisher.Bookstore.Api.Controllers {
             ApplicationUser user = await userManager.FindByEmailAsync(login.Email);
             JwtSecurityToken token = await GenerateTokenAsync(user);
             string serializedToken = new JwtSecurityTokenHandler().WriteToken(token);
+            var response = new { Token = serializedToken };
+            return Ok(response);
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] ApplicationUser registration){
+            if(!ModelState.IsValid){
+                return BadRequest();
+            }
+            ApplicationUser user = new ApplicationUser {
+                Email = registration.Email,
+                UserName = registration.UserName,
+                Id = registration.Id
+            };
+            IdentityResult result = await userManager.CreateAsync(user, registration.Password);
+            if(!result.Succeeded){
+                foreach (var err in result.Errors){
+                    ModelState.AddModelError(err.Code, err.Description);
+                }
+                return BadRequest(ModelState);
+            }
             return Ok();
         }
 
         private async Task<JwtSecurityToken> GenerateTokenAsync(ApplicationUser user)
         {
-            var claims = new List<Claim>();
+            var claims = new List<Claim>(){
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName)
+            };
             
             var expirationDays = configuration.GetValue<int>("JWTConfigration:TokenExpirationDays");
             
@@ -57,6 +83,12 @@ namespace Fisher.Bookstore.Api.Controllers {
             );
 
             return token;
+        }
+
+        [Authorize]
+        [HttpGet("profile")]
+        public IActionResult Profile(){
+            return Ok(User.Identity.Name);
         }
     }
 }
