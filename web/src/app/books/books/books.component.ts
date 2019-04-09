@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { Book } from '../book';
+import { BooksService } from '../books.service';
 
 @Component({
   selector: 'app-books',
@@ -7,8 +8,8 @@ import { Book } from '../book';
   styleUrls: ['./books.component.css']
 })
 export class BooksComponent implements OnInit {
-
-  books: Book[] = [
+  public BookService: BooksService;
+  /* books: Book[] = [
     {
       id: 1,
       title: 'Ready Player One',
@@ -19,8 +20,13 @@ export class BooksComponent implements OnInit {
       title: 'Catch 22',
       author: 'Joseph Heller'
     }
-  ]
-  constructor() { }
+  ];
+  */
+
+  books = this.BookService.getBooks();
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
