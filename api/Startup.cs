@@ -73,9 +73,9 @@ namespace Fisher.Bookstore.Api
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseHttpsRedirection();
             app.UseCors("CorsPolicy");
+            //app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

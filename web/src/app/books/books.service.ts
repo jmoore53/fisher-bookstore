@@ -8,7 +8,7 @@ import { Book } from './book';
   providedIn: 'root'
 })
 export class BooksService {
-  private booksUri = 'https://localhost:5001/api/books';
+  private booksUri = 'http://localhost:5000/api/books';
   private handleError<T>(operation = 'operation', result ?: T){
     return(error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);

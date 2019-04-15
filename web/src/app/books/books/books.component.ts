@@ -1,6 +1,9 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { Book } from '../book';
 import { BooksService } from '../books.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-books',
@@ -8,26 +11,37 @@ import { BooksService } from '../books.service';
   styleUrls: ['./books.component.css']
 })
 export class BooksComponent implements OnInit {
-  public BookService: BooksService;
-  /* books: Book[] = [
+  /*
+  books: Book[] = [
     {
-      id: 1,
-      title: 'Ready Player One',
-      author: 'Ernest Cline'
+      Id: 1,
+      Title: 'Ready Player One',
+      Author: 'Ernest Cline',
+      Isbn: "string",
+      PublishDate: "object",
+      Publisher: "string"
     },
     {
-      id: 2,
-      title: 'Catch 22',
-      author: 'Joseph Heller'
-    }
+      Id: 2,
+      Title: 'Ready Player One',
+      Author: 'Ernest Cline',
+      Isbn: "string",
+      PublishDate: "object",
+      Publisher: "string"
+    },
   ];
   */
+  books: Book[];
 
-  books = this.BookService.getBooks();
+  constructor(private bookService: BooksService){}
 
-  constructor() {
+  fetchBooks(){
+    this.bookService.getBooks().subscribe(books => (this.books = books));
+    console.log(this.books)
   }
 
+
   ngOnInit() {
+    this.fetchBooks();
   }
 }
